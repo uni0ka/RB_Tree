@@ -8,7 +8,9 @@ private:
 public:
 	RB_Tree() {}; 
 	~RB_Tree() {}; 
-
+	void pre_order();
+	void in_order();
+	void post_order();
 };
 
 
