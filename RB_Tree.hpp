@@ -11,16 +11,11 @@ private:
 public:
 	RB_Tree() { root = nullptr; }
 	~RB_Tree() {}; 
-
+	RB_Node<T>* get_root()const {
+		return this->root;
+	}
 	void insert(T new_val); //插入（通过新值）
 };
-
-
-
-
-
-
-
 
 
 
@@ -133,10 +128,7 @@ void RB_Tree<T>::insert_fix(RB_Node<T>* new_node) {
 				cur->color = black;
 				break;
 			}
-			if (cur->parent == this->root) {
-				this->root->color = black;
-				break;
-			}
+			if (cur->parent == this->root) { break; }
 		}
 		if (uncle == nullptr || uncle->color == black) {
 			if (cur->is_left_child() && cur->parent->is_left_child()) {
