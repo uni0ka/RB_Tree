@@ -130,7 +130,7 @@ void RB_Tree<T>::insert_fix(RB_Node<T>* new_node) {
 			}
 			if (cur->parent == this->root) { break; }
 		}
-		if (uncle == nullptr || uncle->color == black) {
+		else if (uncle == nullptr || uncle->color == black) {
 			if (cur->is_left_child() && cur->parent->is_left_child()) {
 				cur->parent->color = black;
 				cur->parent->parent->color = red;

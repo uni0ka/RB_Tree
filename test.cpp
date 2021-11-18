@@ -38,13 +38,14 @@ void print_RB_Tree(const RB_Tree<T>& tree) {
 }
 
 template<class T>
-bool check_RB_Tree(RB_Tree<T>& tree) {
+bool check_RB_Tree(const RB_Tree<T>& tree) {
+	auto root = tree.get_root();
 
 }
 
 int main() {
 	RB_Tree<int> test;
-	for (int i = -5; i < 10; i++) {
+	for (int i = -999; i < 999; i++) {
 		test.insert(i);
 	}
 	print_RB_Tree<int>(test);
