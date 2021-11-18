@@ -12,6 +12,7 @@ public:
 	RB_Tree() {root = nullptr}; 
 	~RB_Tree() {}; 
 
-	void insert(T new_val); void insert(RB_Node<T>* new_node);//插入
+	void insert(T new_val); //插入（通过新值）
+	void insert(RB_Node<T>* new_node);//插入（通过新结点）
 };
 
