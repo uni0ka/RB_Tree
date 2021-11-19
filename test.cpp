@@ -45,10 +45,18 @@ bool check_RB_Tree(const RB_Tree<T>& tree) {
 
 int main() {
 	RB_Tree<int> test;
-	for (int i = -999; i < 999; i++) {
+	for (int i = 0; i < 9; i++) {
 		test.insert(i);
 	}
 	print_RB_Tree<int>(test);
-
+	test.remove(7);
+	cout << endl;
+	print_RB_Tree<int>(test);
+	test.insert(7);
+	cout << endl;
+	print_RB_Tree<int>(test);
+	test.remove(6);
+	cout << endl;
+	print_RB_Tree<int>(test);
 	return 0;
 }

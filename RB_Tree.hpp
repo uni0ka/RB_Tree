@@ -1,5 +1,7 @@
 #pragma once
 #include"RB_Node.hpp"
+
+
 template<class T>
 class RB_Tree
 {
@@ -8,6 +10,8 @@ private:
 	void left_rotate(RB_Node<T>* x);//左旋
 	void right_rotate(RB_Node<T>* y);//右旋
 	void insert_fix(RB_Node<T>* new_node);//插入修正
+	void remove_fix(RB_Node<T>* node);//删除修正
+
 public:
 	RB_Tree() { root = nullptr; }
 	~RB_Tree() {}; 
@@ -15,6 +19,7 @@ public:
 		return this->root;
 	}
 	void insert(T new_val); //插入（通过新值）
+	void remove(T target_val);//删除（通过查找值）
 };
 
 
@@ -150,4 +155,56 @@ void RB_Tree<T>::insert_fix(RB_Node<T>* new_node) {
 		}
 	}
 	return;
+}
+
+
+//删除
+template<class T>
+void RB_Tree<T>::remove(T target_val) {
+	RB_Node<T>* x = this->root;
+	RB_Node<T>* target_node = nullptr;
+	while (x != nullptr) {
+		if (x->val > target_val)x = x->left;
+		else if (x->val < target_val)x = x->right;
+		else { target_node = x; break; }
+	}
+	if (target_node == nullptr) return;//没有目标值
+
+	RB_Node<T>* replace = nullptr;
+	if (target_node->left != nullptr && target_node->right != nullptr) {
+		replace = target_node->get_successor();
+
+		T tmp = target_node->val;
+		target_node->val = replace->val;
+		replace->val = tmp;
+	}
+	else if (target_node->left != nullptr || target_node->right != nullptr) {
+		replace = target_node->left != nullptr ? target_node->left : target_node->right;
+
+		T tmp = target_node->val;
+		target_node->val = replace->val;
+		replace->val = tmp;
+	}
+	else if (target_node == this->root) {
+		delete root;
+		root = nullptr;
+	}
+	else replace = target_node;
+
+	if (replace->color == black) {
+		this->remove_fix(replace);
+	}
+	else {
+		delete replace;
+		replace = nullptr;
+	}
+
+	return;
+}
+
+//删除修正
+template<class T>
+void RB_Tree<T>::remove_fix(RB_Node<T>* node) {
+
+
 }
