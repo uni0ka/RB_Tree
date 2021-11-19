@@ -58,7 +58,7 @@ RB_Node<T>* RB_Node<T>::get_successor() {
 }
 
 template<class T>
-RB_Node<T>::~RB_Node() {
+RB_Node<T>::~RB_Node() {  //消除parent对本结点的指向
 	if (this->parent != nullptr) {
 		if (this->is_left_child())this->parent->left = nullptr;
 		else this->parent->right = nullptr;

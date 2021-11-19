@@ -86,7 +86,7 @@ void RB_Tree<T>::right_rotate(RB_Node<T>* y) {
 //插入
 template<class T>
 void RB_Tree<T>::insert(T new_val) {
-	if (this->root == nullptr) {
+	if (this->root == nullptr) {   //root为空，空树
 		root = new RB_Node<T>(new_val, black, nullptr, nullptr, nullptr);
 		return;
 	}
@@ -120,7 +120,7 @@ void RB_Tree<T>::insert_fix(RB_Node<T>* new_node) {
 	while (cur->parent->color == red) {
 		RB_Node<T>* uncle = cur->get_uncle();
 
-		if (uncle!=nullptr && uncle->color == red) {
+		if (uncle!=nullptr && uncle->color == red) {  //uncle为红
 			cur->parent->color = black;
 			uncle->color = black;
 			cur->parent->parent->color = red;
@@ -131,22 +131,22 @@ void RB_Tree<T>::insert_fix(RB_Node<T>* new_node) {
 			}
 			if (cur->parent == this->root) { break; }
 		}
-		else if (uncle == nullptr || uncle->color == black) {
-			if (cur->is_left_child() && cur->parent->is_left_child()) {
+		else if (uncle == nullptr || uncle->color == black) { //uncle为黑或者nil
+			if (cur->parent->is_left_child() && cur->is_left_child()) { //左左
 				cur->parent->color = black;
 				cur->parent->parent->color = red;
 				this->right_rotate(cur->parent->parent);
 			}
-			else if (cur->is_right_child() && cur->parent->is_left_child()) {
+			else if (cur->parent->is_left_child() && cur->is_right_child()) { //左右
 				this->left_rotate(cur->parent);
 				cur = cur->left;
 			}
-			else if (cur->is_right_child() && cur->parent->is_right_child()) {
+			else if (cur->parent->is_right_child() && cur->is_right_child()) { //右右
 				cur->parent->color = black;
 				cur->parent->parent->color = red;
 				this->left_rotate(cur->parent->parent);
 			}
-			else {
+			else {     //右左
 				this->right_rotate(cur->parent);
 				cur = cur->right;
 			}
@@ -166,34 +166,38 @@ void RB_Tree<T>::remove(T target_val) {
 		else if (x->val < target_val)x = x->right;
 		else { target_node = x; break; }
 	}
-	if (target_node == nullptr) return;//没有目标值
+	if (target_node == nullptr) return;//没有目标值，无需删除，直接返回
 
 	RB_Node<T>* replace = nullptr;
-	if (target_node->left != nullptr && target_node->right != nullptr) {
+	if (target_node->left != nullptr && target_node->right != nullptr) {  //2个孩子
+		//找替身（后继节点）
 		replace = target_node->get_successor();
 
+		//交换值
 		T tmp = target_node->val;
 		target_node->val = replace->val;
 		replace->val = tmp;
 	}
-	else if (target_node->left != nullptr || target_node->right != nullptr) {
+	else if (target_node->left != nullptr || target_node->right != nullptr) { //1个孩子
+		//找替身（孩子）
 		replace = target_node->left != nullptr ? target_node->left : target_node->right;
 
+		//交换值
 		T tmp = target_node->val;
 		target_node->val = replace->val;
 		replace->val = tmp;
 	}
-	else if (target_node == this->root) {
+	else if (target_node == this->root) {  //根且无孩子
 		delete root;
 		root = nullptr;
 	}
-	else replace = target_node;
+	else replace = target_node; //叶子（无视nil） 无替身，但要和前面统一方便处理
 
-	if (replace != nullptr && replace->color == black) {
+	if (replace != nullptr && replace->color == black) {  //待删结点为黑，调用修正
 		this->remove_fix(replace);
 	}
-	else {
-		delete replace;
+	else { //待删结点为红，直接删除
+		delete replace; //RB_Node类有析构，delete时消除parent对本结点的指向
 		replace = nullptr;
 	}
 
