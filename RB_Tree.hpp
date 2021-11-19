@@ -1,7 +1,6 @@
 #pragma once
 #include"RB_Node.hpp"
 
-
 template<class T>
 class RB_Tree
 {
@@ -21,9 +20,6 @@ public:
 	void insert(T new_val); //插入（通过新值）
 	void remove(T target_val);//删除（通过查找值）
 };
-
-
-
 
 
 
@@ -193,7 +189,7 @@ void RB_Tree<T>::remove(T target_val) {
 	}
 	else replace = target_node;
 
-	if (replace->color == black) {
+	if (replace != nullptr && replace->color == black) {
 		this->remove_fix(replace);
 	}
 	else {

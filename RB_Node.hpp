@@ -1,8 +1,8 @@
 #pragma once
 enum node_color
 {
-	black,
-	red,
+	black = 0,
+	red = 1,
 };
 
 template<class T>
@@ -19,8 +19,10 @@ public:
 	~RB_Node();
 
 	RB_Node<T>* get_uncle(); //获取uncle结点
+
 	bool is_left_child(); //判断本结点是否为左孩子
 	bool is_right_child();//判断本结点是否为右孩子
+
 	// RB_Node<T>* get_predecessor();//获取前驱结点
 	RB_Node<T>* get_successor();//获取后继结点（仅在有右孩子的情况下）
 };
