@@ -143,6 +143,7 @@ void RB_Tree<T>::insert_fix(RB_Node<T>* new_node) {
 			}
 			else if (cur->is_right_child() && cur->parent->is_left_child()) {
 				this->left_rotate(cur->parent);
+				cur = cur->left;
 			}
 			else if (cur->is_right_child() && cur->parent->is_right_child()) {
 				cur->parent->color = black;
@@ -151,6 +152,7 @@ void RB_Tree<T>::insert_fix(RB_Node<T>* new_node) {
 			}
 			else {
 				this->right_rotate(cur->parent);
+				cur = cur->right;
 			}
 		}
 	}
