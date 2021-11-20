@@ -13,25 +13,14 @@ private:
 
 public:
 	RB_Tree() { root = nullptr; }
-	~RB_Tree() {}; 
-	RB_Node<T>* get_root()const {
-		return this->root;
-	}
+	~RB_Tree() { delete root; root = nullptr; };
+	RB_Node<T>* get_root()const { return this->root; } //获取根结点
 	void insert(T new_val); //插入（通过新值）
 	void remove(T target_val);//删除（通过查找值）
 };
 
 
-
-/* 左旋示意图(对节点x进行左旋)：
- *      px                              px
- *     /                               /
- *    x                               y
- *   /  \      --(左旋)-->           / \
- *  lx   y                          x  ry
- *     /   \                       /  \
- *    ly   ry                     lx  ly
- */
+//左旋
 template<class T>
 void RB_Tree<T>::left_rotate(RB_Node<T>* x) {
 
@@ -52,15 +41,7 @@ void RB_Tree<T>::left_rotate(RB_Node<T>* x) {
 	y->left = x;
 }
 
-/* 右旋示意图(对节点y进行右旋)：
- *            py                               py
- *           /                                /
- *          y                                x
- *         /  \      --(右旋)-->            /  \
- *        x   ry                           lx   y
- *       / \                                   / \
- *      lx  rx                                rx  ry
- */
+//右旋
 template<class T>
 void RB_Tree<T>::right_rotate(RB_Node<T>* y) {
 
@@ -112,7 +93,6 @@ void RB_Tree<T>::insert(T new_val) {
 	return;
 }
 
-
 //插入修正
 template<class T>
 void RB_Tree<T>::insert_fix(RB_Node<T>* new_node) {
@@ -154,6 +134,7 @@ void RB_Tree<T>::insert_fix(RB_Node<T>* new_node) {
 	}
 	return;
 }
+
 
 
 //删除
@@ -250,11 +231,11 @@ void RB_Tree<T>::remove_fix(RB_Node<T>* node) {
 					break;
 				}
 				else {  //兄弟无孩子
-					if (cur->parent->color == black) {
+					if (cur->parent->color == black) {   //父结点为黑
 						sil->color = red;
 						cur = cur->parent;
 					}
-					else {
+					else {                             //父结点为红
 						cur->parent->color = black;
 						sil->color = red;
 						break;
@@ -290,11 +271,11 @@ void RB_Tree<T>::remove_fix(RB_Node<T>* node) {
 					break;
 				}
 				else{  //兄弟无孩子
-					if (cur->parent->color == black) {
+					if (cur->parent->color == black) {  //父结点为黑
 						sil->color = red;
 						cur = cur->parent;
 					}
-					else {
+					else {                              //父结点为红
 						cur->parent->color = black;
 						sil->color = red;
 						break;

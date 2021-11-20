@@ -12,8 +12,6 @@ template<class T>
 bool check_RB_Tree(const RB_Tree<T>& tree); //校验红黑树特性
 template<class T>
 bool dfs(RB_Node<T>* node, int& count, vector<int>& check_count);
-template<class T>
-int find_max(RB_Node<int>* node);
 
 int main() {
 	RB_Tree<int> test;
@@ -26,10 +24,7 @@ int main() {
 		test.insert(i);
 		if (!check_RB_Tree(test))cout << "0";
 	}
-
-
-
-
+	test.~RB_Tree();
 
 	return 0;
 }

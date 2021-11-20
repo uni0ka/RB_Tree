@@ -28,7 +28,6 @@ public:
 	RB_Node<T>* get_successor();//获取后继结点（仅在有右孩子的情况下）
 };
 
-
 template<class T>
 RB_Node<T>* RB_Node<T>::get_uncle() {
 	if (this->parent == nullptr || this->parent->parent == nullptr)return nullptr;
@@ -46,14 +45,9 @@ RB_Node<T>* RB_Node<T>::get_silbling() {
 }
 
 template<class T>
-bool RB_Node<T>::is_left_child() {
-	return this->parent->left == this ? true : false;
-}
-
+bool RB_Node<T>::is_left_child() { return this->parent->left == this ? true : false; }
 template<class T>
-bool RB_Node<T>::is_right_child() {
-	return this->parent->right == this ? true : false;
-}
+bool RB_Node<T>::is_right_child() { return this->parent->right == this ? true : false; }
 
 template<class T>
 RB_Node<T>* RB_Node<T>::get_successor() {
@@ -67,9 +61,11 @@ RB_Node<T>* RB_Node<T>::get_successor() {
 }
 
 template<class T>
-RB_Node<T>::~RB_Node() {  //消除parent对本结点的指向
-	if (this->parent != nullptr) {
+RB_Node<T>::~RB_Node() {  
+	if (this->parent != nullptr) {  //消除parent对本结点的指向
 		if (this->is_left_child())this->parent->left = nullptr;
 		else this->parent->right = nullptr;
 	}
+	if (this->left != nullptr)delete this->left;
+	if (this->right != nullptr)delete this->right;
 }
