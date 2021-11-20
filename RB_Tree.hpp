@@ -219,7 +219,7 @@ void RB_Tree<T>::remove_fix(RB_Node<T>* node) {
 	RB_Node<T>* delete_node = node;
 	RB_Node<T>* bro;
 
-	while (cur->color == black){
+	while (cur->color == black && cur!=this->root){
 		bro = cur->get_brother();//更新兄弟结点
 
 		if (cur->is_left_child()) { //待删结点为左孩子
@@ -250,9 +250,13 @@ void RB_Tree<T>::remove_fix(RB_Node<T>* node) {
 					break;
 				}
 				else {  //兄弟无孩子
-					bro->color = red;
-					cur = cur->parent;
-					if (cur->color == red || cur == this->root) {
+					if (cur->parent->color == black) {
+						bro->color = red;
+						cur = cur->parent;
+					}
+					else {
+						cur->parent->color = black;
+						bro->color = red;
 						break;
 					}
 				}
@@ -286,9 +290,13 @@ void RB_Tree<T>::remove_fix(RB_Node<T>* node) {
 					break;
 				}
 				else{  //兄弟无孩子
-					bro->color = red;
-					cur = cur->parent;
-					if (cur->color == red || cur == this->root) {
+					if (cur->parent->color == black) {
+						bro->color = red;
+						cur = cur->parent;
+					}
+					else {
+						cur->parent->color = black;
+						bro->color = red;
 						break;
 					}
 				}

@@ -17,15 +17,19 @@ int find_max(RB_Node<int>* node);
 
 int main() {
 	RB_Tree<int> test;
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 999; i++) {
 		test.insert(i);
 		if (!check_RB_Tree(test))cout << "0";
 	}
-	print_RB_Tree(test);
 
-	test.remove(5);
-	print_RB_Tree(test);
-	if (!check_RB_Tree(test))cout << "0";
+	for (int i = 500; i < 999; i++) {
+		test.insert(i);
+		if (!check_RB_Tree(test))cout << "0";
+	}
+
+
+
+
 
 	return 0;
 }
