@@ -6,7 +6,9 @@
 using namespace std;
 
 template<class T>
-void print_RB_Tree(const RB_Tree<T>& tree);
+void print_RB_Tree(const RB_Tree<T>& tree); 
+template<class T>
+bool check_RB_Tree(const RB_Tree<T>& tree);
 
 int main() {
 	RB_Tree<int> test;
@@ -17,10 +19,10 @@ int main() {
 	test.remove(7);
 	cout << endl;
 	print_RB_Tree<int>(test);
-	test.insert(7);
+	test.remove(8);
 	cout << endl;
 	print_RB_Tree<int>(test);
-	test.remove(6);
+	test.remove(3);
 	cout << endl;
 	print_RB_Tree<int>(test);
 	return 0;
@@ -56,4 +58,9 @@ void print_RB_Tree(const RB_Tree<T>& tree) {
 		n++;
 		cout << endl;
 	}
+}
+
+template<class T>
+bool check_RB_Tree(const RB_Tree<T>& tree) {
+
 }

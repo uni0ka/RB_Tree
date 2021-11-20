@@ -207,6 +207,88 @@ void RB_Tree<T>::remove(T target_val) {
 //删除修正
 template<class T>
 void RB_Tree<T>::remove_fix(RB_Node<T>* node) {
+	RB_Node<T>* cur = node;
+	RB_Node<T>* delete_node = node;
+	RB_Node<T>* bro;
 
+	while (cur->color == black){
+		bro = cur->get_brother();//更新兄弟结点
 
+		if (cur->is_left_child()) { //待删结点为左孩子
+			if (bro->color == red) {   //兄弟为红
+				bro->color = black;
+				bro->left->color = red;
+				this->left_rotate(cur->parent);
+				break;
+			}
+			else {                      //兄弟为黑
+				if (bro->right != nullptr && bro->left == nullptr) { //兄弟仅有右孩子
+					bro->color = cur->parent->color;
+					bro->right->color = black;
+					cur->parent->color = black;
+					this->left_rotate(cur->parent);
+					break;
+				}
+				else if (bro->left != nullptr && bro->right == nullptr) { //兄弟仅有左孩子
+					bro->left->color = black;
+					bro->color = red;
+					this->right_rotate(bro);
+				}
+				else if (bro->right != nullptr && bro->left != nullptr) { //兄弟有左右孩子
+					bro->color = cur->parent->color;
+					bro->right->color = black;
+					bro->parent->color = black;
+					this->left_rotate(cur->parent);
+					break;
+				}
+				else {  //兄弟无孩子
+					bro->color = red;
+					cur = cur->parent;
+					if (cur->color == red || cur == this->root) {
+						break;
+					}
+				}
+			}
+		}
+		else {        //待删结点为右孩子
+			if (bro->color == red) {   //兄弟为红
+				bro->color = black;
+				bro->right->color = red;
+				this->right_rotate(cur->parent);
+				break;
+			}
+			else {                    //兄弟为黑
+				if (bro->left != nullptr && bro->right == nullptr) { //兄弟仅有左孩子
+					bro->color = cur->parent->color;
+					bro->left->color = black;
+					cur->parent->color = black;
+					this->right_rotate(cur->parent);
+					break;
+				}
+				else if (bro->right != nullptr && bro->left == nullptr) { //兄弟仅有右孩子
+					bro->right->color = black;
+					bro->color = red;
+					this->left_rotate(bro);
+				}
+				else if (bro->left != nullptr && bro->right != nullptr) { //兄弟有左右孩子
+					bro->color = cur->parent->color;
+					bro->left->color = black;
+					cur->parent->color = black;
+					this->right_rotate(cur->parent);
+					break;
+				}
+				else{  //兄弟无孩子
+					bro->color = red;
+					cur = cur->parent;
+					if (cur->color == red || cur == this->root) {
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	delete delete_node;
+	delete_node = nullptr;
+	return;
 }
