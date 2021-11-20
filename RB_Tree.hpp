@@ -217,86 +217,86 @@ template<class T>
 void RB_Tree<T>::remove_fix(RB_Node<T>* node) {
 	RB_Node<T>* cur = node;
 	RB_Node<T>* delete_node = node;
-	RB_Node<T>* bro;
+	RB_Node<T>* sil;
 
 	while (cur->color == black && cur!=this->root){
-		bro = cur->get_brother();//更新兄弟结点
+		sil = cur->get_silbling();//更新兄弟结点
 
 		if (cur->is_left_child()) { //待删结点为左孩子
-			if (bro->color == red) {   //兄弟为红
-				bro->color = black;
-				bro->left->color = red;
+			if (sil->color == red) {   //兄弟为红
+				sil->color = black;
+				sil->left->color = red;
 				this->left_rotate(cur->parent);
 				break;
 			}
 			else {                      //兄弟为黑
-				if (bro->right != nullptr && bro->left == nullptr) { //兄弟仅有右孩子
-					bro->color = cur->parent->color;
-					bro->right->color = black;
+				if (sil->right != nullptr && sil->left == nullptr) { //兄弟仅有右孩子
+					sil->color = cur->parent->color;
+					sil->right->color = black;
 					cur->parent->color = black;
 					this->left_rotate(cur->parent);
 					break;
 				}
-				else if (bro->left != nullptr && bro->right == nullptr) { //兄弟仅有左孩子
-					bro->left->color = black;
-					bro->color = red;
-					this->right_rotate(bro);
+				else if (sil->left != nullptr && sil->right == nullptr) { //兄弟仅有左孩子
+					sil->left->color = black;
+					sil->color = red;
+					this->right_rotate(sil);
 				}
-				else if (bro->right != nullptr && bro->left != nullptr) { //兄弟有左右孩子
-					bro->color = cur->parent->color;
-					bro->right->color = black;
-					bro->parent->color = black;
+				else if (sil->right != nullptr && sil->left != nullptr) { //兄弟有左右孩子
+					sil->color = cur->parent->color;
+					sil->right->color = black;
+					sil->parent->color = black;
 					this->left_rotate(cur->parent);
 					break;
 				}
 				else {  //兄弟无孩子
 					if (cur->parent->color == black) {
-						bro->color = red;
+						sil->color = red;
 						cur = cur->parent;
 					}
 					else {
 						cur->parent->color = black;
-						bro->color = red;
+						sil->color = red;
 						break;
 					}
 				}
 			}
 		}
 		else {        //待删结点为右孩子
-			if (bro->color == red) {   //兄弟为红
-				bro->color = black;
-				bro->right->color = red;
+			if (sil->color == red) {   //兄弟为红
+				sil->color = black;
+				sil->right->color = red;
 				this->right_rotate(cur->parent);
 				break;
 			}
 			else {                    //兄弟为黑
-				if (bro->left != nullptr && bro->right == nullptr) { //兄弟仅有左孩子
-					bro->color = cur->parent->color;
-					bro->left->color = black;
+				if (sil->left != nullptr && sil->right == nullptr) { //兄弟仅有左孩子
+					sil->color = cur->parent->color;
+					sil->left->color = black;
 					cur->parent->color = black;
 					this->right_rotate(cur->parent);
 					break;
 				}
-				else if (bro->right != nullptr && bro->left == nullptr) { //兄弟仅有右孩子
-					bro->right->color = black;
-					bro->color = red;
-					this->left_rotate(bro);
+				else if (sil->right != nullptr && sil->left == nullptr) { //兄弟仅有右孩子
+					sil->right->color = black;
+					sil->color = red;
+					this->left_rotate(sil);
 				}
-				else if (bro->left != nullptr && bro->right != nullptr) { //兄弟有左右孩子
-					bro->color = cur->parent->color;
-					bro->left->color = black;
+				else if (sil->left != nullptr && sil->right != nullptr) { //兄弟有左右孩子
+					sil->color = cur->parent->color;
+					sil->left->color = black;
 					cur->parent->color = black;
 					this->right_rotate(cur->parent);
 					break;
 				}
 				else{  //兄弟无孩子
 					if (cur->parent->color == black) {
-						bro->color = red;
+						sil->color = red;
 						cur = cur->parent;
 					}
 					else {
 						cur->parent->color = black;
-						bro->color = red;
+						sil->color = red;
 						break;
 					}
 				}

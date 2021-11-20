@@ -19,7 +19,7 @@ public:
 	~RB_Node();
 
 	RB_Node<T>* get_uncle(); //获取uncle结点
-	RB_Node<T>* get_brother(); //获取兄弟结点
+	RB_Node<T>* get_silbling(); //获取兄弟结点
 
 	bool is_left_child(); //判断本结点是否为左孩子
 	bool is_right_child();//判断本结点是否为右孩子
@@ -38,7 +38,7 @@ RB_Node<T>* RB_Node<T>::get_uncle() {
 }
 
 template<class T>
-RB_Node<T>* RB_Node<T>::get_brother() {
+RB_Node<T>* RB_Node<T>::get_silbling() {
 	if (this->parent == nullptr)return nullptr;
 	if (this->is_left_child())return this->parent->right;
 	else if (this->is_right_child())return this->parent->left;
