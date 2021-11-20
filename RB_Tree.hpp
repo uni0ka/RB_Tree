@@ -177,6 +177,13 @@ void RB_Tree<T>::remove(T target_val) {
 		T tmp = target_node->val;
 		target_node->val = replace->val;
 		replace->val = tmp;
+
+		if (replace->right != nullptr) { //替身有叶子（右孩子），按有1个孩子的情况再处理一次
+			T tmp = replace->val;
+			replace->val = replace->right->val;
+			replace->right->val = tmp;
+			replace = replace->right;
+		}
 	}
 	else if (target_node->left != nullptr || target_node->right != nullptr) { //1个孩子
 		//找替身（孩子）
@@ -193,6 +200,7 @@ void RB_Tree<T>::remove(T target_val) {
 	}
 	else replace = target_node; //叶子（无视nil） 无替身，但要和前面统一方便处理
 
+	//最后统一变为删叶子
 	if (replace != nullptr && replace->color == black) {  //待删结点为黑，调用修正
 		this->remove_fix(replace);
 	}
