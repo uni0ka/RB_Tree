@@ -1,3 +1,4 @@
+#pragma once
 #include"RB_Node.hpp"
 #include"RB_Tree.hpp"
 #include<queue>
@@ -12,25 +13,6 @@ template<class T>
 bool check_RB_Tree(const RB_Tree<T>& tree); //校验红黑树特性
 template<class T>
 bool dfs(RB_Node<T>* node, int& count, vector<int>& check_count);
-
-int main() {
-	RB_Tree<int> test;
-	for (int i = 0; i < 999; i++) {
-		test.insert(i);
-		if (!check_RB_Tree(test))cout << "0";
-	}
-
-	for (int i = 500; i < 999; i++) {
-		test.insert(i);
-		if (!check_RB_Tree(test))cout << "0";
-	}
-	test.~RB_Tree();
-
-	return 0;
-}
-
-
-
 template<class T>
 void print_RB_Tree(const RB_Tree<T>& tree) {
 	auto root = tree.get_root();
@@ -66,7 +48,7 @@ bool check_RB_Tree(const RB_Tree<T>& tree) {
 	int count = 0;
 	vector<int> check_count = vector<int>();
 	if (tree.get_root()->color == red)return false;
-	bool dfs_ans = dfs(tree.get_root(),count, check_count);
+	bool dfs_ans = dfs(tree.get_root(), count, check_count);
 	for (size_t i = 1; i < check_count.size(); i++) {
 		if (check_count[i] != check_count[i - 1])return false;
 	}
@@ -79,7 +61,7 @@ bool dfs(RB_Node<T>* node, int& count, vector<int>& check_count) {
 	if (node == nullptr)return true;
 	if (node->color == red && node->parent->color == red)return false;
 	if (node->color == black)count++;
-	if (node->left==nullptr)check_count.push_back(count);
+	if (node->left == nullptr)check_count.push_back(count);
 	if (node->right == nullptr)check_count.push_back(count);
 
 	bool l = dfs(node->left, count, check_count);
@@ -87,4 +69,3 @@ bool dfs(RB_Node<T>* node, int& count, vector<int>& check_count) {
 	if (node->color == black)count--;
 	return l && r;
 }
-

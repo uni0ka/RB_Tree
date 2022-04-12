@@ -100,7 +100,7 @@ void RB_Tree<T>::insert_fix(RB_Node<T>* new_node) {
 	while (cur->parent->color == red) {
 		RB_Node<T>* uncle = cur->get_uncle();
 
-		if (uncle!=nullptr && uncle->color == red) {  //uncle为红
+		if (uncle != nullptr && uncle->color == red) {  //uncle为红
 			cur->parent->color = black;
 			uncle->color = black;
 			cur->parent->parent->color = red;
@@ -200,15 +200,14 @@ void RB_Tree<T>::remove_fix(RB_Node<T>* node) {
 	RB_Node<T>* delete_node = node;
 	RB_Node<T>* sil;
 
-	while (cur->color == black && cur!=this->root){
+	while (cur->color == black && cur != this->root) {
 		sil = cur->get_silbling();//更新兄弟结点
 
 		if (cur->is_left_child()) { //待删结点为左孩子
 			if (sil->color == red) {   //兄弟为红
-				sil->color = black;
-				sil->left->color = red;
+				sil->color = cur->parent->color;
+				cur->parent->color = red;
 				this->left_rotate(cur->parent);
-				break;
 			}
 			else {                      //兄弟为黑
 				if (sil->right != nullptr && sil->left == nullptr) { //兄弟仅有右孩子
@@ -223,7 +222,7 @@ void RB_Tree<T>::remove_fix(RB_Node<T>* node) {
 					sil->color = red;
 					this->right_rotate(sil);
 				}
-				else if (sil->right != nullptr && sil->left != nullptr) { //兄弟有左右孩子
+				else if (sil->right != nullptr && sil->left != nullptr && sil->right->color == red) { //兄弟有左右孩子
 					sil->color = cur->parent->color;
 					sil->right->color = black;
 					sil->parent->color = black;
@@ -245,10 +244,9 @@ void RB_Tree<T>::remove_fix(RB_Node<T>* node) {
 		}
 		else {        //待删结点为右孩子
 			if (sil->color == red) {   //兄弟为红
-				sil->color = black;
-				sil->right->color = red;
+				sil->color = cur->parent->color;
+				cur->parent->color = red;
 				this->right_rotate(cur->parent);
-				break;
 			}
 			else {                    //兄弟为黑
 				if (sil->left != nullptr && sil->right == nullptr) { //兄弟仅有左孩子
@@ -263,14 +261,14 @@ void RB_Tree<T>::remove_fix(RB_Node<T>* node) {
 					sil->color = red;
 					this->left_rotate(sil);
 				}
-				else if (sil->left != nullptr && sil->right != nullptr) { //兄弟有左右孩子
+				else if (sil->left != nullptr && sil->right != nullptr && sil->right->color == red) { //兄弟有左右孩子
 					sil->color = cur->parent->color;
 					sil->left->color = black;
 					cur->parent->color = black;
 					this->right_rotate(cur->parent);
 					break;
 				}
-				else{  //兄弟无孩子
+				else {  //兄弟无孩子
 					if (cur->parent->color == black) {  //父结点为黑
 						sil->color = red;
 						cur = cur->parent;
